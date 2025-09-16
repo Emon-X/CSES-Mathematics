@@ -1,0 +1,1 @@
+{"name":"Local: Sum of Divisors","url":"d:\\CODE\\CSES-Mathematics\\Sum of Divisors.cpp","tests":[{"id":1758029094055,"input":"5","output":""},{"id":1758035803265,"input":"923186999522","output":"775776813"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\CODE\\CSES-Mathematics\\Sum of Divisors.cpp","group":"local","local":true}
