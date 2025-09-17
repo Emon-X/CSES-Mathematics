@@ -10,51 +10,53 @@ using namespace std;
 #define pp pop_back()
 #define mod 1000000007
 #define endl "\n"
-#define N 200005
+#define N 1000005
 ll dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
 ll dy[] = {0, 0, 1, -1, 1, -1, 1, -1};
 template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
+ll lpf[N], Mobius[N];
+
+void precompute() {
+    // least prime factor
+    for (int i = 2; i < N; i++) {
+        if (!lpf[i]) {
+            for (int j = i; j < N; j += i) {
+                if (!lpf[j]) lpf[j] = i;
+            }
+        }
+    }
+    // Mobius function
+    Mobius[1] = 1;
+    for (int i = 2; i < N; i++) {
+        if (lpf[i / lpf[i]] == lpf[i]) Mobius[i] = 0;
+        else Mobius[i] = -Mobius[i / lpf[i]];
+    }
+}
 void domain_expension()
 {
     ll n;
     cin >> n;
-    vector<ll> s(n);
-    map<ll, ll> mp;
+    vector<ll>mp(N+2,0);
     for (int i = 0; i < n; i++)
     {
-        cin >> s[i];
-        mp[s[i]]++;
+        ll x;
+        cin >> x;
+        mp[x]++;
     }
     ll ans = 0;
-    sort(all(s));
 
-    for (int i = 0; i < n; i++)
+    for (int i = 1; i <=N; i++)
     {
-        mp[s[i]]--;
-        ll bad = 0;
-        for (int x = 2; x * x <= s[i]; x++)
-        {
-            for (int j = x; j <= 20; j += x)
-            {
-                bad += mp[j];
-            }
-            ll y = n/x;
-            if(y==x) continue;
-            for (int j = y; j <= 20; j += y)
-            {
-                bad += mp[j];
-            }
+        if(Mobius[i]==0) continue;
+
+        ll d = 0;
+        for(int j=i;j<=N;j+=i){
+            d+=mp[j];
         }
-        ll x = n - i - 1;
-        if (s[i] == 1)
-        {
-            ans += (n - i - 1);
-            continue;
-        }
-        ans += (x - bad);
-        // cout << (x-bad) << " ";
+        ll pr = d*(d-1)/2;
+        ans+=(pr*Mobius[i]);
     }
     cout << ans << endl;
 }
@@ -63,7 +65,7 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-
+    precompute();
     domain_expension();
     return 0;
 }

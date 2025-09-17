@@ -34,26 +34,23 @@ void domain_expension()
     // ans = summation of (n/i)*i for i = 1 to n;
     ll sum = 0;
     // for small i
-    for (int i = 1; i <= sq; i++)
+    for (ll i = 1; i <= sq; i++)
     {
         ll cnt = n / i;
-        sum = (sum % mod + ((cnt % mod) * (i % mod)) % mod) % mod;
+        sum = (sum + ((cnt % mod) * (i % mod)) % mod) % mod;
     }
     // for large i
 
-    for (int v = 1; v <= sq; v++)
+    for (ll v = 1; v <= sq; v++)
     {
-        ll L = (n / (v + 1)) + 1;
+        ll L = n / (v + 1) + 1;
         ll R = n / v;
-
-        if (L <= sq)
-            L = L + 1;
+        if (L <= sq) L = sq + 1;
         if (L <= R)
         {
             ll cnt = sumAp(L, R);
-            ll contribution = ((v%mod)*(cnt%mod))%mod;
-
-            sum = (sum%mod + contribution %mod)%mod;
+            ll contribution = ((v % mod) * (cnt % mod)) % mod;
+            sum = (sum + contribution) % mod;
         }
     }
     cout << sum << endl;
