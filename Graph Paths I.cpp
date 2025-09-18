@@ -17,7 +17,7 @@ template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 typedef vector<vector<ll>> matrix;
-ll n = 2;
+
 matrix matrix_mul(const matrix &res, const matrix &base, ll n)
 {
     matrix ans(n, vector<ll>(n, 0));
@@ -36,10 +36,9 @@ matrix matrix_mul(const matrix &res, const matrix &base, ll n)
     return ans;
 }
 
-matrix matrix_exp(ll exp)
+matrix matrix_exp(matrix base, ll exp, ll n)
 {
     matrix res(n, vector<ll>(n, 0));
-    matrix base = {{1,1},{1,0}};
 
     for (ll i = 0; i < n; i++)
         res[i][i] = 1;
@@ -56,14 +55,20 @@ matrix matrix_exp(ll exp)
 
 void domain_expension()
 {
-    ll n;
-    cin >> n;
-    if (n == 0) {
-        cout << 0 << endl;
-        return;
+    ll n, m, k;
+    cin >> n >> m >> k;
+    matrix adj(n, vector<ll>(n, 0));
+    for (int i = 0; i < m; i++)
+    {
+        ll u, v;
+        cin >> u >> v;
+        --u;
+        --v;
+        adj[u][v]++;
     }
-    matrix res = matrix_exp(n - 1);
-    cout << res[0][0] << endl;
+    matrix res = matrix_exp(adj, k, n);
+    
+    cout << res[0][n - 1] << endl;
 }
 int main()
 {

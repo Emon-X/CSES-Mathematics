@@ -17,32 +17,33 @@ template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 typedef vector<vector<ll>> matrix;
-ll n = 2;
+const ll inf = 1e19;
+
 matrix matrix_mul(const matrix &res, const matrix &base, ll n)
 {
-    matrix ans(n, vector<ll>(n, 0));
+    matrix ans(n, vector<ll>(n, inf));
     for (int i = 0; i < n; i++)
     {
         for (int k = 0; k < n; k++)
         {
-            if (res[i][k] == 0)
+            if (res[i][k] == inf)
                 continue;
             for (int j = 0; j < n; j++)
             {
-                ans[i][j] = (ans[i][j] + res[i][k] * base[k][j]) % mod;
+                if (base[k][j] == inf)
+                    continue;
+                ans[i][j] = min(ans[i][j], res[i][k] + base[k][j]);
             }
         }
     }
     return ans;
 }
 
-matrix matrix_exp(ll exp)
+matrix matrix_exp(matrix base, ll exp, ll n)
 {
-    matrix res(n, vector<ll>(n, 0));
-    matrix base = {{1,1},{1,0}};
-
+    matrix res(n, vector<ll>(n, inf));
     for (ll i = 0; i < n; i++)
-        res[i][i] = 1;
+        res[i][i] = 0;
 
     while (exp)
     {
@@ -56,14 +57,20 @@ matrix matrix_exp(ll exp)
 
 void domain_expension()
 {
-    ll n;
-    cin >> n;
-    if (n == 0) {
-        cout << 0 << endl;
-        return;
+    ll n, m, k;
+    cin >> n >> m >> k;
+    matrix adj(n, vector<ll>(n, inf));
+    for (int i = 0; i < m; i++)
+    {
+        ll u, v, w;
+        cin >> u >> v >> w;
+        --u;
+        --v;
+        adj[u][v] = min(adj[u][v], w);
     }
-    matrix res = matrix_exp(n - 1);
-    cout << res[0][0] << endl;
+    matrix res = matrix_exp(adj, k, n);
+
+    cout << (res[0][n - 1] == inf ? -1 : res[0][n - 1]) << endl;
 }
 int main()
 {
