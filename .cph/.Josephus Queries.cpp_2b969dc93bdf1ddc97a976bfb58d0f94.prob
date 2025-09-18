@@ -1,0 +1,1 @@
+{"name":"Local: Josephus Queries","url":"d:\\CODE\\CSES-Mathematics\\Josephus Queries.cpp","tests":[{"id":1758184841588,"input":"4\n7 1\n7 3\n2 2\n1337 1313","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\CODE\\CSES-Mathematics\\Josephus Queries.cpp","group":"local","local":true}
